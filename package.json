@@ -1,0 +1,25 @@
+{
+  "name": "webvis-webapp",
+  "version": "1.0.0",
+  "description": "A developer assesment task to implement an alternative webvisApp using vanilla js, and css",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fabrigeas/webvis-layout.git"
+  },
+  "keywords": [
+    "javscript",
+    "webvis",
+    "instant3Dhub",
+    "webvisAPI"
+  ],
+  "author": "Fabrice Feugang Kemegni",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/fabrigeas/webvis-layout/issues"
+  },
+  "homepage": "https://github.com/fabrigeas/webvis-layout#readme"
+}
