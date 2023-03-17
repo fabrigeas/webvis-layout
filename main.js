@@ -1,6 +1,20 @@
 var context;
 
 /**
+ *
+ * @param {number} nodeId
+ * @param {boolean} checked
+ * @param {HTMLLIElement} menuItem
+ */
+const setEnabled = async (nodeId, checked, menuItem) => {
+  await context.setProperty(nodeId, 'enabled', checked);
+
+  menuItem.querySelectorAll('input').forEach(input => {
+    input.checked = checked;
+  });
+};
+
+/**
  * Create a menuItem render it into the given menu and returns
  * the created menuItem(li)
  *
@@ -14,9 +28,15 @@ const createMenuItem = async (nodeId, menu) => {
   const template = document.getElementById('side-menu-item');
   const menuItem = template.content.cloneNode(true).querySelectorAll('li')[0];
   const label = menuItem.querySelector('.label');
+  const toggle = menuItem.querySelector('input');
   const ul = menuItem.querySelector('ul');
   const input = menuItem.querySelector('input');
   const text = await context.getProperty(nodeId, 'label');
+
+  toggle.onclick = async event => {
+    event.stopPropagation();
+    await setEnabled(nodeId, event.target.checked, menuItem);
+  };
 
   input.checked = true;
   ul.hidden = true;
@@ -111,5 +131,5 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   initEventListeners();
 
-  // addModel('urn:x-i3d:examples:x3d:v8');
+  addModel('urn:x-i3d:examples:x3d:v8');
 });
