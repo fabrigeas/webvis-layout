@@ -7,6 +7,21 @@
 </head>
 
 <body>
+  <div id="side-menu">
+    <button title="click to add new model" onclick="setModalHiddem()">&#10063;</button>
+  </div>
+  <div id="add-model-dialog" hidden>
+    <div class="content">
+      <h2>Import model</h2>
+      <form>
+        <input type="text" placeholder="model url">
+        <div class="actions">
+          <button type="reset" onclick="setModalHiddem(true)"> cancel </button>
+          <button type="submit"> create </button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="https://hubdemo.threedy.io/repo/webvis/webvis.js"></script>
   <webvis-viewer></webvis-viewer>
   <script src="main.js"></script>
