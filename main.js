@@ -1,4 +1,39 @@
 var context;
+var selectedNodes = [];
+const SELECTED_CLASS_NAME = 'selected';
+
+const unselectSectedNodes = () => {
+  document
+    .querySelectorAll(`.${SELECTED_CLASS_NAME}`)
+    .forEach(label => label.classList.remove(SELECTED_CLASS_NAME));
+
+  selectedNodes = [];
+};
+
+/**
+ * add or remove node from the list of selected nodes
+ *
+ * @param {number} nodeId
+ * @param {PointerEvent} event
+ * @param {HTMLLiElement} menuItem
+ * @returns
+ */
+const updateSelection = async (nodeId, label, isSelected, altkey) => {
+  if (!altkey) {
+    unselectSectedNodes();
+  }
+
+  if (isSelected) {
+    const index = selectedNodes.indexOf(nodeId);
+    selectedNodes.splice(index, 1);
+  } else {
+    selectedNodes.push(nodeId);
+  }
+
+  label.classList.toggle(SELECTED_CLASS_NAME);
+
+  await context.setSelection(selectedNodes);
+};
 
 /**
  *
@@ -65,6 +100,16 @@ const createMenuItem = async (nodeId, menu, childrenCount) => {
   expandButton.onclick = async event => {
     event.stopPropagation();
     await expandMenuItem(ul, expandButton, childrenCount);
+  };
+
+  label.onclick = async event => {
+    event.stopPropagation();
+    await updateSelection(
+      nodeId,
+      label,
+      label.classList.contains(SELECTED_CLASS_NAME),
+      event.altKey
+    );
   };
 
   input.checked = true;
