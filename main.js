@@ -1,7 +1,9 @@
-async function main() {
-  const context = webvis.getContext();
-  const nodeId = context.add("urn:x-i3d:shape:cube");
-  
-  await context.setProperty(nodeId, "enabled", true);
-}
-main();
+var context;
+
+/**
+ * the main of this application
+ * but runs after the document is ready.
+ */
+window.addEventListener('DOMContentLoaded', async () => {
+  context = webvis.getContext();
+});
