@@ -1,6 +1,53 @@
 var context;
 
 /**
+ * Create a menuItem render it into the given menu and returns
+ * the created menuItem(li)
+ *
+ * @param {number} nodeId
+ * @param {HTMLUListElement|HTMLMenuElement} menu - menu | ul
+ * @param {number} childrenCount - number of children for the given node
+ *
+ * @returns {HTMLUListElement}
+ */
+const createMenuItem = async (nodeId, menu) => {
+  const template = document.getElementById('side-menu-item');
+  const menuItem = template.content.cloneNode(true).querySelectorAll('li')[0];
+  const label = menuItem.querySelector('.label');
+  const ul = menuItem.querySelector('ul');
+  const input = menuItem.querySelector('input');
+  const text = await context.getProperty(nodeId, 'label');
+
+  input.checked = true;
+  ul.hidden = true;
+  menuItem.id = nodeId;
+  label.textContent = text;
+
+  menu.appendChild(menuItem);
+
+  return menuItem;
+};
+
+/**
+ * Creates a li that corresponds to th giveb nodeId
+ * and renders it to the side menu
+ *
+ * @param {number} nodeId
+ * @param {HTMLMenuElement|HTMLUListElement} menu
+ */
+const createMenuEntry = async (
+  nodeId,
+  menu = document.querySelector('#side-menu menu')
+) => {
+  const children = await context.getProperty(nodeId, 'children');
+  const menuItem = await createMenuItem(nodeId, menu, children.length);
+
+  children.forEach(id => {
+    createMenuEntry(id, menuItem.querySelector('ul'));
+  });
+};
+
+/**
  * add the given model to the view
  *
  * @param {string} dataURI - the URN | URL
@@ -14,6 +61,7 @@ const addModel = async dataURI => {
       },
     });
 
+    createMenuEntry(nodeId);
     setModalHiddem(true);
   } catch (error) {
     alert(error);

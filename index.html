@@ -9,6 +9,22 @@
 <body>
   <div id="side-menu">
     <button title="click to add new model" onclick="setModalHiddem()">&#10063;</button>
+    <menu>
+      <template id="side-menu-item">
+        <li class="menu-item">
+          <div>
+            <button class="branch expand">&#9897;</button>
+            <button class="leaf expand">&#10064;</button>
+            <label class="switch">
+              <input type="checkbox" hidden>
+              <span></span>
+            </label>
+            <label class="label"></label>
+          </div>
+          <ul></ul>
+        </li>
+      </template>
+    </menu>
   </div>
   <div id="add-model-dialog" hidden>
     <div class="content">
