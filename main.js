@@ -2,6 +2,20 @@ var context;
 
 /**
  *
+ * @param {HTMLUListElement} ul
+ * @param {HTMLButtonElement} button
+ * @param {boolean} hasChildren
+ */
+const expandMenuItem = async (ul, button, hasChildren) => {
+  ul.hidden = !ul.hidden;
+
+  if (hasChildren) {
+    button.classList.toggle('expanded');
+  }
+};
+
+/**
+ *
  * @param {number} nodeId
  * @param {boolean} checked
  * @param {HTMLLIElement} menuItem
@@ -24,7 +38,7 @@ const setEnabled = async (nodeId, checked, menuItem) => {
  *
  * @returns {HTMLUListElement}
  */
-const createMenuItem = async (nodeId, menu) => {
+const createMenuItem = async (nodeId, menu, childrenCount) => {
   const template = document.getElementById('side-menu-item');
   const menuItem = template.content.cloneNode(true).querySelectorAll('li')[0];
   const label = menuItem.querySelector('.label');
@@ -32,10 +46,25 @@ const createMenuItem = async (nodeId, menu) => {
   const ul = menuItem.querySelector('ul');
   const input = menuItem.querySelector('input');
   const text = await context.getProperty(nodeId, 'label');
+  let expandButton;
 
   toggle.onclick = async event => {
     event.stopPropagation();
     await setEnabled(nodeId, event.target.checked, menuItem);
+  };
+
+  if (childrenCount) {
+    menuItem.querySelector('.leaf').remove();
+  } else {
+    menuItem.querySelector('.branch').remove();
+    ul.remove();
+  }
+
+  expandButton = menuItem.querySelector('button');
+
+  expandButton.onclick = async event => {
+    event.stopPropagation();
+    await expandMenuItem(ul, expandButton, childrenCount);
   };
 
   input.checked = true;
