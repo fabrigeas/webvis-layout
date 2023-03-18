@@ -26,18 +26,18 @@ button {
 	padding: 2px;
 	box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.6);
 	background: white;
-	min-width: 20vh;
 	border-radius: 0.25rem;
 	color: #2484c6;
+	border-top-right-radius: 0;
 }
 
 /* side-menu */
 #side-menu > menu {
-	margin-top: 0.5rem;
-	height: 80vh;
-	width: 50vh;
+	height: 95vh;
 	margin-left: -2.5rem;
 	overflow: auto;
+	min-width: 5rem;
+	padding-right: 2rem;
 	resize: horizontal;
 }
 #side-menu ul {
@@ -68,15 +68,10 @@ button {
 	transform: rotate(90deg);
 }
 .menu-item div {
-	display: flex;
-	gap: 2px;
 	white-space: nowrap;
 }
 .menu-item .label {
 	color: darkgray;
-}
-.menu-item .label:hover {
-	color: #b4b40c !important;
 }
 
 /* add-model-dialog */
