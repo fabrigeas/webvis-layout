@@ -1,11 +1,11 @@
-var context;
-var selectedNodes = [];
+let context;
+let selectedNodes = [];
 const SELECTED_CLASS_NAME = 'selected';
 
 const unselectSectedNodes = () => {
   document
-    .querySelectorAll(`.${SELECTED_CLASS_NAME}`)
-    .forEach(label => label.classList.remove(SELECTED_CLASS_NAME));
+      .querySelectorAll(`.${SELECTED_CLASS_NAME}`)
+      .forEach((label) => label.classList.remove(SELECTED_CLASS_NAME));
 
   selectedNodes = [];
 };
@@ -58,7 +58,7 @@ const expandMenuItem = async (ul, button, hasChildren) => {
 const setEnabled = async (nodeId, checked, menuItem) => {
   await context.setProperty(nodeId, 'enabled', checked);
 
-  menuItem.querySelectorAll('input').forEach(input => {
+  menuItem.querySelectorAll('input').forEach((input) => {
     input.checked = checked;
   });
 };
@@ -71,7 +71,7 @@ const setEnabled = async (nodeId, checked, menuItem) => {
  * @param {HTMLUListElement|HTMLMenuElement} menu - menu | ul
  * @param {number} childrenCount - number of children for the given node
  *
- * @returns {HTMLUListElement}
+ * @return {HTMLUListElement}
  */
 const createMenuItem = async (nodeId, menu, childrenCount) => {
   const template = document.getElementById('side-menu-item');
@@ -83,7 +83,7 @@ const createMenuItem = async (nodeId, menu, childrenCount) => {
   const text = await context.getProperty(nodeId, 'label');
   let expandButton;
 
-  toggle.onclick = async event => {
+  toggle.onclick = async (event) => {
     event.stopPropagation();
     await setEnabled(nodeId, event.target.checked, menuItem);
   };
@@ -97,18 +97,18 @@ const createMenuItem = async (nodeId, menu, childrenCount) => {
 
   expandButton = menuItem.querySelector('button');
 
-  expandButton.onclick = async event => {
+  expandButton.onclick = async (event) => {
     event.stopPropagation();
     await expandMenuItem(ul, expandButton, childrenCount);
   };
 
-  label.onclick = async event => {
+  label.onclick = async (event) => {
     event.stopPropagation();
     await updateSelection(
-      nodeId,
-      label,
-      label.classList.contains(SELECTED_CLASS_NAME),
-      event.altKey
+        nodeId,
+        label,
+        label.classList.contains(SELECTED_CLASS_NAME),
+        event.altKey,
     );
   };
 
@@ -130,13 +130,13 @@ const createMenuItem = async (nodeId, menu, childrenCount) => {
  * @param {HTMLMenuElement|HTMLUListElement} menu
  */
 const createMenuEntry = async (
-  nodeId,
-  menu = document.querySelector('#side-menu menu')
+    nodeId,
+    menu = document.querySelector('#side-menu menu'),
 ) => {
   const children = await context.getProperty(nodeId, 'children');
   const menuItem = await createMenuItem(nodeId, menu, children.length);
 
-  children.forEach(id => {
+  children.forEach((id) => {
     createMenuEntry(id, menuItem.querySelector('ul'));
   });
 };
@@ -146,7 +146,7 @@ const createMenuEntry = async (
  *
  * @param {string} dataURI - the URN | URL
  */
-const addModel = async dataURI => {
+const addModel = async (dataURI) => {
   try {
     const nodeId = context.add({
       dataURI,
@@ -166,7 +166,7 @@ const addModel = async dataURI => {
  *
  * @param {SubmitEvent} event
  */
-const submitModel = event => {
+const submitModel = (event) => {
   event.preventDefault();
 
   const urn = event.target.querySelector('input').value;
@@ -192,7 +192,7 @@ const initEventListeners = () => {
  * @param {boolean} hidden
  *
  */
-const setModalHiddem = hidden => {
+const setModalHiddem = (hidden) => {
   document.getElementById('add-model-dialog').hidden = hidden;
 };
 
